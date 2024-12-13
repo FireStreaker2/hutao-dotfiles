@@ -1,0 +1,185 @@
+{
+	"layer": "bottom",
+	"position": "top",
+	"height": 30,
+	"margin": "10, 20, 0, 20",
+	"modules-left": [
+		"custom/launcher",
+		"hyprland/workspaces",
+		"cpu"
+	],
+	"modules-center": [
+		"custom/spotify"
+	],
+	"modules-right": [
+		"tray",
+		"backlight",
+		"pulseaudio",
+		"network",
+		"battery",
+		"clock",
+		"custom/swaync",
+		"custom/power"
+	],
+	"custom/launcher": {
+		"format": "⋏",
+		"on-click": "exec wofi",
+		"tooltip": false
+	},
+	"hyprland/workspaces": {
+		"format": "{icon}",
+		"on-click": "activate",
+		"all-outputs": true,
+		"format-icons": {
+			"1": "一",
+			"2": "二",
+			"3": "三",
+			"4": "四",
+			"5": "五",
+			"6": "六",
+			"7": "七",
+			"8": "八",
+			"9": "九",
+			"10": "十"
+		},
+		"persistent-workspaces": {
+		  "*": 10			
+    }
+	},
+	"cpu": {
+		"interval": 10,
+		"format": " {usage}%",
+		"max-length": 10,
+		"on-click": "kitty -e 'htop'"
+	},
+	"custom/spotify": {
+		"exec": "/usr/bin/python3 ~/.config/waybar/mediaplayer.py --player spotify",
+		"format": "{}",
+		"return-type": "json",
+		"on-click": "playerctl play-pause",
+		"on-scroll-up": "playerctl previous",
+		"on-scroll-down": "playerctl next"
+	},
+	"tray": {
+		"icon-size": 15
+	},
+	"backlight": {
+		"device": "intel_backlight",
+		"format": "{icon} {percent}%",
+		"format-icons": [
+			"☼",
+			""
+		],
+		"on-scroll-down": "brightnessctl -c backlight set 1%-",
+		"on-scroll-up": "brightnessctl -c backlight set +1%"
+	},
+	"pulseaudio": {
+		"format": "{icon} {volume}% {format_source}",
+		"format-bluetooth": "{icon} {volume}% {format_source}",
+		"format-bluetooth-muted": " {format_source}",
+		"format-muted": "  {format_source}",
+		"format-source": " {volume}%",
+		"format-source-muted": "",
+		"format-icons": {
+			"headphone": "",
+			"hands-free": "",
+			"headset": "",
+			"phone": "",
+			"portable": "",
+			"car": "",
+			"default": [
+				"",
+				"",
+				""
+			]
+		},
+		"on-scroll-up": "amixer -D pulse sset Capture 1%+",
+		"on-scroll-down": "amixer -D pulse sset Capture 1%-",
+    "on-click": "amixer -q -D pulse sset Master toggle",
+    "on-click-right": "amixer -D pulse sset Capture toggle"
+	},
+	"network": {
+		"format": "{icon}",
+		"format-alt": "{ipaddr}/{cidr} {icon}",
+		"format-alt-click": "click-right",
+		"format-wifi": "{icon} ({signalStrength}%)",
+		"format-icons": {
+			"wifi": [
+				""
+			],
+			"ethernet": [
+				""
+			],
+			"disconnected": [
+				""
+			]
+		},
+		"on-click": "networkmanager_dmenu",
+		"tooltip-format": "Network: {essid}"
+	},
+	"battery": {
+		"states": {
+			"warning": 30,
+			"critical": 15
+		},
+		"format": "{icon} {capacity}%",
+		"format-charging": " {capacity}%",
+		"format-plugged": "  {capacity}%",
+		"format-icons": [
+			"",
+			"",
+			"",
+			"",
+			""
+		]
+	},
+	"clock": {
+		"format": "{:%I:%M %p}",
+		"rotate": 0,
+		"format-alt": " {:%a,%b %d}",
+		"tooltip-format": "<tt>{calendar}</tt>",
+		"calendar": {
+			"mode": "month",
+			"mode-mon-col": 3,
+			"on-scroll": 1,
+			"on-click-right": "mode",
+			"format": {
+				"months": "<span color='#361f1c'><b>{}</b></span>",
+				"weekdays": "<span color='#4a2b26'><b>{}</b></span>",
+				"today": "<span color='#ff6699'><b>{}</b></span>"
+			}
+		},
+		"actions": {
+			"on-click-right": "mode",
+			"on-click-forward": "tz_up",
+			"on-click-backward": "tz_down",
+			"on-scroll-up": "shift_down",
+			"on-scroll-down": "shift_up"
+		}
+	},
+	"custom/swaync": {
+		"tooltip": true,
+		"format": "{icon} ",
+		"format-icons": {
+			"notification": "<span foreground='red'><sup></sup></span>",
+			"none": "",
+			"dnd-notification": "<span foreground='red'><sup></sup></span>",
+			"dnd-none": "",
+			"inhibited-notification": "<span foreground='red'><sup></sup></span>",
+			"inhibited-none": "",
+			"dnd-inhibited-notification": "<span foreground='red'><sup></sup></span>",
+			"dnd-inhibited-none": ""
+		},
+		"return-type": "json",
+		"exec-if": "which swaync-client",
+		"exec": "swaync-client -swb",
+		"on-click": "sleep 0.1 && swaync-client -t -sw",
+		"on-click-right": "swaync-client -d -sw",
+		"escape": true
+	},
+	"custom/power": {
+		"format": "⏻",
+		"on-click": "exec wlogout -b 5 -T 300 -B 300",
+		"tooltip": false
+	}
+}
